@@ -15,13 +15,18 @@ class InfoDrawer extends Component {
     }
 
     render() {
+        const { name, address, phone, website, pictureURL } = this.props.info;
+
         return (
             <Drawer
-                title="Bar Name"
+                title="Location Information"
                 placement="right"
                 onClose={this.props.closeDrawer}
                 destroyOnClose={true}
                 maskClosable={true}
+                maskStyle={{
+                    background: 'rgb(0, 0, 0, 0.5)',
+                }}
                 visible={this.state.visible}
                 style={{
                     height: 'calc(100% - 55px)',
@@ -29,6 +34,12 @@ class InfoDrawer extends Component {
                     paddingBottom: 53,
                 }}
             >
+                <div>
+                    <h1>{name}</h1>
+                    <div>Address: {address}</div>
+                    <div>{phone}</div>
+                    <a href={website} target="_blank">{website}</a>
+                </div>
                 <div
                     style={{
                         position: 'absolute',

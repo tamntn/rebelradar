@@ -1,23 +1,60 @@
 import React, { Component } from 'react';
-import logo from '../logo.svg';
-import { Input, Dropdown, Button, Icon, Menu, Checkbox } from 'antd';
+import axios from 'axios';
+import { Input, Dropdown, Button, Icon, Menu, Checkbox, Spin } from 'antd';
 import BarCard from './BarCard';
 import appLogo from '../image/logo.png';
 import '../style/App.css';
+
+const loadingList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			loading: true,
+			searchKeyWord: "",
 			selectedSortingOption: "2",
-			compactView: false
+			compactView: false,
+			locations: []
 		};
 		this.handleMenuClick = this.handleMenuClick.bind(this);
 		this.updateViewImage = this.updateViewImage.bind(this);
 	}
 
+	componentDidMount() {
+		const url = `http://localhost:3000/api/locations`;
+		const request = axios.get(url)
+			.then(result => {
+				const locations = result.data.data;
+				console.log(locations);
+				this.setState({
+					loading: false,
+					locations
+				})
+			});
+	}
+
+	onUpdateSearchKeyWord = (e) => {
+		const searchKeyWord = e.target.value;
+		const matchedLocations = this.state.locations.filter(location => location.name.toLowerCase().includes(searchKeyWord.toLowerCase()))
+		this.setState({ searchKeyWord })
+	}
+
 	handleMenuClick(option) {
 		this.setState({ selectedSortingOption: option.key })
+	}
+
+	searchLocations = () => {
+		return this.state.locations.filter(location => location.name.toLowerCase().includes(this.state.searchKeyWord.toLowerCase()))
+	}
+
+	sortLocations = (locations) => {
+
+	}
+
+	processLocations = () => {
+		let result = this.searchLocations();
+		return result;
 	}
 
 	updateViewImage(e) {
@@ -33,6 +70,8 @@ class App extends Component {
 			</Menu>
 		);
 
+		const processedLocations = this.processLocations();
+
 		return (
 			<div className="app">
 				<div className="header">
@@ -46,6 +85,7 @@ class App extends Component {
 						<Input
 							placeholder="Search..."
 							size="large"
+							onChange={this.onUpdateSearchKeyWord}
 						/>
 						<Dropdown overlay={sortMenu}>
 							<Button size="large">
@@ -56,17 +96,22 @@ class App extends Component {
 							Compact View
 						</Checkbox>
 					</div>
+					{
+						this.state.loading &&
+						<div className="loading-state">
+							<Spin size="large" />
+						</div>
+					}
 					<div className="cards-collection">
-						<BarCard compactView={this.state.compactView} />
-						<BarCard compactView={this.state.compactView} />
-						<BarCard compactView={this.state.compactView} />
-						<BarCard compactView={this.state.compactView} />
-						<BarCard compactView={this.state.compactView} />
-						<BarCard compactView={this.state.compactView} />
-						<BarCard compactView={this.state.compactView} />
-						<BarCard compactView={this.state.compactView} />
-						<BarCard compactView={this.state.compactView} />
-						<BarCard compactView={this.state.compactView} />
+						{
+							processedLocations.map(location => {
+								return (<BarCard
+									key={location._id}
+									compactView={this.state.compactView}
+									locationInfo={location}
+								/>)
+							})
+						}
 					</div>
 				</div>
 				<div className="footer">
