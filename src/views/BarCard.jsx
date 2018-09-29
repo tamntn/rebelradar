@@ -97,11 +97,11 @@ class BarCard extends Component {
         const currentTime = moment();
         const differenceInMinutes = currentTime.diff(moment(lastPriceUpdate.timestamp), "minutes");
         if (differenceInMinutes === 0)
-            return "Updated less than a minute ago"
+            return "Reported less than a minute ago"
         else if (differenceInMinutes < 60)
-            return `Updated ${differenceInMinutes} minutes ago`
+            return `Last reported ${differenceInMinutes} minutes ago - $${lastPriceUpdate.price}`
         else
-            return `Updated ${differenceInMinutes / 60} hour(s) ago`
+            return `Last repored ${differenceInMinutes / 60} hour(s) ago - $${lastPriceUpdate.price}`
     }
 
     render() {

@@ -22,8 +22,8 @@ class ReportModal extends Component {
         const locationId = this.props.info._id;
 
         axios.all([
-            axios.post(`http://localhost:3000/api/price/${locationId}`, { "price": this.state.selectedPrice }),
-            axios.post(`http://localhost:3000/api/ratings/${locationId}`, { "rating": this.state.selectedRating }),
+            axios.post(`https://rebelradar-api.herokuapp.com/api/price/${locationId}`, { "price": this.state.selectedPrice }),
+            axios.post(`https://rebelradar-api.herokuapp.com/api/ratings/${locationId}`, { "rating": this.state.selectedRating }),
         ]).then(() => {
             notification["success"]({
                 message: 'Submission has been received',
