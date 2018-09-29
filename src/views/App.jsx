@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import logo from '../logo.svg';
 import { Input, Dropdown, Button, Icon, Menu, Checkbox } from 'antd';
-import './App.css';
 import BarCard from './BarCard';
 import appLogo from '../image/logo.png';
+import '../style/App.css';
 
 class App extends Component {
 	constructor(props) {

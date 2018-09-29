@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Icon, Progress, Skeleton } from 'antd';
-import './BarCard.css';
 import InfoDrawer from './InfoDrawer';
+import '../style/BarCard.css';
 
 const strokeColor = {
     "1": "#ffccc7",
