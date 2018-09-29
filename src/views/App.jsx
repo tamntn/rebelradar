@@ -102,6 +102,13 @@ class App extends Component {
 							<Spin size="large" />
 						</div>
 					}
+					{
+						processedLocations.length === 0 &&
+						<div className="empty-state">
+							<Icon type="coffee" />
+							<h3>We can't find any matching places.<br />You may have to drink coffee tonight 🙂</h3>
+						</div>
+					}
 					<div className="cards-collection">
 						{
 							processedLocations.map(location => {
@@ -115,8 +122,9 @@ class App extends Component {
 					</div>
 				</div>
 				<div className="footer">
-					Rebel Radar © - VolHacks 2018
-        		</div>
+					<div>Rebel Radar © - VolHacks 2018</div>
+					<Button shape="circle" icon="github" target="_blank" href="https://github.com/tamntn/rebelradar" />
+				</div>
 			</div>
 		);
 	}
