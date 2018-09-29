@@ -43,13 +43,46 @@ class BarCard extends Component {
         this.setState({ drawerOpen: false })
     }
 
+    getDisplayPrice = (priceUpdates) => {
+        let priceArray = [];
+        priceUpdates.forEach(priceUpdate => {
+            priceArray.push(priceUpdate.price);
+        })
+        if (priceArray.length === 0) {
+            return "No Cover";
+        } else {
+            return this.getArrayMode(priceArray);
+        }
+    }
+
+    getArrayMode = (inputArray) => {
+        let modeDict = {};
+        for (var i = 0; i < inputArray.length; i++) {
+            if (modeDict[inputArray[i]] === undefined) {
+                modeDict[inputArray[i]] = 0;
+            }
+            modeDict[inputArray[i]] += 1;
+        }
+        var greatestFreq = 0;
+        var mode;
+        for (var prop in modeDict) {
+            if (modeDict[prop] >= greatestFreq) {
+                greatestFreq = modeDict[prop];
+                mode = prop;
+            }
+        }
+        return `$${mode.toString()}`;
+    }
+
     render() {
         const rating = this.state.rating;
         const ratingStrokeColor = this.getRatingStrokeColor(rating);
         const compactView = this.props.compactView;
 
         // LocationInfo
-        const { name, address, phone, website, pictureURL } = this.props.locationInfo;
+        const { name, address, phone, website, pictureURL, priceUpdates, ratings } = this.props.locationInfo;
+
+        const displayPrice = this.getDisplayPrice(priceUpdates);
 
         return (
             <div>
@@ -62,7 +95,7 @@ class BarCard extends Component {
                     >
                         <Skeleton loading={this.state.loading}>
                             <div className="card-content">
-                                <div className="price">No Cover</div>
+                                <div className="price">{displayPrice}</div>
                                 <Progress percent={rating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
                                 <div className="update-time">Updated 7 minutes ago</div>
                             </div>
@@ -76,15 +109,14 @@ class BarCard extends Component {
                         cover={<img alt="example" src={pictureURL} />}
                         loading={this.state.loading}
                         actions={[
-                            <Icon type="like" />,
-                            <Icon type="dislike" />,
+                            <div>17 <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /></div>,
                             <Icon type="edit" />,
                             <Icon type="info-circle" onClick={this.openInfoDrawer} />
                         ]}
                     >
                         <Skeleton loading={this.state.loading}>
                             <div className="card-content">
-                                <div className="price">No Cover</div>
+                                <div className="price">{displayPrice}</div>
                                 <Progress percent={rating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
                                 <div className="update-time">Updated 7 minutes ago</div>
                             </div>

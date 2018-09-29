@@ -26,7 +26,6 @@ class App extends Component {
 		axios.get(url)
 			.then(result => {
 				const locations = result.data.data;
-				console.log(locations);
 				this.setState({
 					loading: false,
 					locations
@@ -103,7 +102,8 @@ class App extends Component {
 						</div>
 					}
 					{
-						processedLocations.length === 0 &&
+						(processedLocations.length === 0 && !this.state.loading)
+						&&
 						<div className="empty-state">
 							<Icon type="coffee" />
 							<h3>We can't find any matching places.<br />You may have to drink coffee tonight 🙂</h3>
