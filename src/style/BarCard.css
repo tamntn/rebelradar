@@ -2,7 +2,7 @@
     position: inherit;
     margin: 0px 50px 30px 50px;
     font-family: 'Ubuntu', sans-serif;
-    width: 280px;
+    width: 300px;
 }
 
 .card-content {
@@ -13,12 +13,18 @@
     font-size: 30px;
     font-weight: 700;
     color: #595959;
+    margin-bottom: 10px;
 }
 
 .update-time {
-    margin-top: 5px;
+    margin-top: 20px;
     font-size: 13px;
     font-weight: 100;
+}
+
+.update-time .last-update {
+    font-size: 15px;
+    font-weight: 700;
 }
 
 @media (max-width: 480px) {

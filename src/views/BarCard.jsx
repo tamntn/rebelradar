@@ -97,11 +97,11 @@ class BarCard extends Component {
         const currentTime = moment();
         const differenceInMinutes = currentTime.diff(moment(lastPriceUpdate.timestamp), "minutes");
         if (differenceInMinutes === 0)
-            return "Reported less than a minute ago"
+            return "less than a minute ago"
         else if (differenceInMinutes < 60)
-            return `Last reported ${differenceInMinutes} minutes ago - $${lastPriceUpdate.price}`
+            return `${differenceInMinutes} minutes ago`
         else
-            return `Last repored ${differenceInMinutes / 60} hour(s) ago - $${lastPriceUpdate.price}`
+            return `${Math.round(differenceInMinutes / 60)} hour${Math.round(differenceInMinutes / 60) === 1 ? '' : 's'} ago`
     }
 
     render() {
@@ -141,16 +141,22 @@ class BarCard extends Component {
                         cover={<img alt="example" src={pictureURL} />}
                         loading={this.state.loading}
                         actions={[
-                            <div>17 <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /></div>,
-                            <Icon type="edit" onClick={this.openModal} />,
-                            <Icon type="info-circle" onClick={this.openInfoDrawer} />
+                            // <div>17 <Icon type="check-circle" size="large" theme="twoTone" twoToneColor="#52c41a" /></div>,
+                            <Icon type="edit" size="large" onClick={this.openModal} />,
+                            <Icon type="info-circle" size="large" onClick={this.openInfoDrawer} />
                         ]}
                     >
                         <Skeleton loading={this.state.loading}>
                             <div className="card-content">
                                 <div className="price">{displayPrice}</div>
                                 <Progress percent={averageRating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
-                                <div className="update-time">{timeSinceLastUpdate}</div>
+                                {/* <div className="update-time">{timeSinceLastUpdate}</div> */}
+                                {
+                                    lastPriceUpdate &&
+                                    <div className="update-time">
+                                        <span className="last-update">Last report ${lastPriceUpdate.price}</span><br />{timeSinceLastUpdate}
+                                    </div>
+                                }
                             </div>
                         </Skeleton>
                     </Card>
