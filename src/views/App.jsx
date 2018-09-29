@@ -22,6 +22,10 @@ class App extends Component {
 	}
 
 	componentDidMount() {
+		this.getAllLocationsInfo();
+	}
+
+	getAllLocationsInfo = () => {
 		const url = `https://rebelradar-api.herokuapp.com/api/locations`;
 		axios.get(url)
 			.then(result => {
@@ -31,11 +35,11 @@ class App extends Component {
 					locations
 				})
 			});
+		console.log("Fetched user data");
 	}
 
 	onUpdateSearchKeyWord = (e) => {
 		const searchKeyWord = e.target.value;
-		const matchedLocations = this.state.locations.filter(location => location.name.toLowerCase().includes(searchKeyWord.toLowerCase()))
 		this.setState({ searchKeyWord })
 	}
 
@@ -116,6 +120,7 @@ class App extends Component {
 									key={location._id}
 									compactView={this.state.compactView}
 									locationInfo={location}
+									onUpdate={this.getAllLocationsInfo}
 								/>)
 							})
 						}

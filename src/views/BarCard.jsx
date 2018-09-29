@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Icon, Progress, Skeleton } from 'antd';
 import InfoDrawer from './InfoDrawer';
+import ReportModal from './ReportModal';
 import '../style/BarCard.css';
 
 const strokeColor = {
@@ -17,7 +18,8 @@ class BarCard extends Component {
         this.state = {
             loading: false,
             rating: 65,
-            drawerOpen: false
+            drawerOpen: false,
+            modalOpen: false
         }
         this.getRatingStrokeColor = this.getRatingStrokeColor.bind(this);
     }
@@ -41,6 +43,14 @@ class BarCard extends Component {
 
     closeInfoDrawer = () => {
         this.setState({ drawerOpen: false })
+    }
+
+    openModal = () => {
+        this.setState({ modalOpen: true })
+    }
+
+    closeModal = () => {
+        this.setState({ modalOpen: false })
     }
 
     getDisplayPrice = (priceUpdates) => {
@@ -74,15 +84,23 @@ class BarCard extends Component {
         return `$${mode.toString()}`;
     }
 
+    getAverageRating = (ratingArray) => {
+        if (ratingArray.length === 0) {
+            return 0;
+        } else {
+            return ratingArray.reduce((a, b) => { return a + b }, 0) / ratingArray.length;
+        }
+    }
+
     render() {
-        const rating = this.state.rating;
-        const ratingStrokeColor = this.getRatingStrokeColor(rating);
         const compactView = this.props.compactView;
 
         // LocationInfo
         const { name, address, phone, website, pictureURL, priceUpdates, ratings } = this.props.locationInfo;
 
         const displayPrice = this.getDisplayPrice(priceUpdates);
+        const averageRating = this.getAverageRating(ratings);
+        const ratingStrokeColor = this.getRatingStrokeColor(averageRating);
 
         return (
             <div>
@@ -96,7 +114,7 @@ class BarCard extends Component {
                         <Skeleton loading={this.state.loading}>
                             <div className="card-content">
                                 <div className="price">{displayPrice}</div>
-                                <Progress percent={rating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
+                                <Progress percent={averageRating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
                                 <div className="update-time">Updated 7 minutes ago</div>
                             </div>
                         </Skeleton>
@@ -110,20 +128,21 @@ class BarCard extends Component {
                         loading={this.state.loading}
                         actions={[
                             <div>17 <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /></div>,
-                            <Icon type="edit" />,
+                            <Icon type="edit" onClick={this.openModal} />,
                             <Icon type="info-circle" onClick={this.openInfoDrawer} />
                         ]}
                     >
                         <Skeleton loading={this.state.loading}>
                             <div className="card-content">
                                 <div className="price">{displayPrice}</div>
-                                <Progress percent={rating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
+                                <Progress percent={averageRating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
                                 <div className="update-time">Updated 7 minutes ago</div>
                             </div>
                         </Skeleton>
                     </Card>
                 }
                 <InfoDrawer open={this.state.drawerOpen} closeDrawer={this.closeInfoDrawer} info={this.props.locationInfo} />
+                <ReportModal open={this.state.modalOpen} closeModal={this.closeModal} info={this.props.locationInfo} onUpdate={this.props.onUpdate} />
             </div>
         )
     }

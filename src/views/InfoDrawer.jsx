@@ -37,8 +37,8 @@ class InfoDrawer extends Component {
                 <div>
                     <h1>{name}</h1>
                     <div>Address: {address}</div>
-                    <div>{phone}</div>
-                    <a href={website} target="_blank">{website}</a>
+                    <div><a href={`tel:${phone}`}>{phone}</a></div>
+                    <div><a href={website} target="_blank">{website}</a></div>
                 </div>
                 <div
                     style={{
