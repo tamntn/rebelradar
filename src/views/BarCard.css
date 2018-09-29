@@ -1,0 +1,22 @@
+.ant-card {
+    position: inherit;
+    margin: 0px 50px 30px 50px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.card-content {
+    text-align: center;
+    /* max-height: 50px; */
+}
+
+.price {
+    font-size: 20px;
+    font-weight: 700;
+    color: black;
+}
+
+.update-time {
+    margin-top: 5px;
+    font-size: 13px;
+    font-weight: 100;
+}
