@@ -13,7 +13,7 @@ class App extends Component {
 		this.state = {
 			loading: true,
 			searchKeyWord: "",
-			selectedSortingOption: "2",
+			selectedSortingOption: "3",
 			compactView: false,
 			locations: []
 		};
@@ -22,8 +22,8 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		const url = `http://localhost:3000/api/locations`;
-		const request = axios.get(url)
+		const url = `https://rebelradar-api.herokuapp.com/api/locations`;
+		axios.get(url)
 			.then(result => {
 				const locations = result.data.data;
 				console.log(locations);
@@ -64,9 +64,9 @@ class App extends Component {
 	render() {
 		const sortMenu = (
 			<Menu onClick={this.handleMenuClick} defaultSelectedKeys={["2"]} selectedKeys={[this.state.selectedSortingOption]}>
-				<Menu.Item key="1"><Icon type="dollar" />Cover Price</Menu.Item>
-				<Menu.Item key="2"><Icon type="sort-ascending" />Name</Menu.Item>
-				<Menu.Item key="3"><Icon type="fire" />Hotness</Menu.Item>
+				<Menu.Item key="1"><Icon type="dollar" />Cover Price ($ - $$$)</Menu.Item>
+				<Menu.Item key="2"><Icon type="sort-ascending" />Name (A - Z)</Menu.Item>
+				<Menu.Item key="3"><Icon type="fire" />Hotness (🔥 - 👎🏻)</Menu.Item>
 			</Menu>
 		);
 

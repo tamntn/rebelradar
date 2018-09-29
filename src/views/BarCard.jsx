@@ -59,7 +59,6 @@ class BarCard extends Component {
                         title={name}
                         hoverable
                         onClick={this.openInfoDrawer}
-                    // actions={[<Icon type="setting" onClick={() => this.setState({ drawerOpen: true })} />, <Icon type="edit" />, <Icon type="ellipsis" />]}
                     >
                         <Skeleton loading={this.state.loading}>
                             <div className="card-content">
@@ -74,11 +73,14 @@ class BarCard extends Component {
                     !compactView &&
                     <Card
                         title={name}
-                        hoverable
                         cover={<img alt="example" src={pictureURL} />}
-                        onClick={this.openInfoDrawer}
                         loading={this.state.loading}
-                    // actions={[<Icon type="setting" onClick={() => this.setState({ drawerOpen: true })} />, <Icon type="edit" />, <Icon type="ellipsis" />]}
+                        actions={[
+                            <Icon type="like" />,
+                            <Icon type="dislike" />,
+                            <Icon type="edit" />,
+                            <Icon type="info-circle" onClick={this.openInfoDrawer} />
+                        ]}
                     >
                         <Skeleton loading={this.state.loading}>
                             <div className="card-content">
