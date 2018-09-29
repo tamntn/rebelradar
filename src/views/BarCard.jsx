@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Icon, Progress, Skeleton } from 'antd';
+import moment from 'moment';
 import InfoDrawer from './InfoDrawer';
 import ReportModal from './ReportModal';
 import '../style/BarCard.css';
@@ -59,7 +60,7 @@ class BarCard extends Component {
             priceArray.push(priceUpdate.price);
         })
         if (priceArray.length === 0) {
-            return "No Cover";
+            return "🤷🏻‍♂️";
         } else {
             return this.getArrayMode(priceArray);
         }
@@ -92,6 +93,17 @@ class BarCard extends Component {
         }
     }
 
+    getTimeSinceLastUpdate = (lastPriceUpdate) => {
+        const currentTime = moment();
+        const differenceInMinutes = currentTime.diff(moment(lastPriceUpdate.timestamp), "minutes");
+        if (differenceInMinutes === 0)
+            return "Updated less than a minute ago"
+        else if (differenceInMinutes < 60)
+            return `Updated ${differenceInMinutes} minutes ago`
+        else
+            return `Updated ${differenceInMinutes / 60} hour(s) ago`
+    }
+
     render() {
         const compactView = this.props.compactView;
 
@@ -101,6 +113,8 @@ class BarCard extends Component {
         const displayPrice = this.getDisplayPrice(priceUpdates);
         const averageRating = this.getAverageRating(ratings);
         const ratingStrokeColor = this.getRatingStrokeColor(averageRating);
+        const lastPriceUpdate = priceUpdates.length > 0 ? priceUpdates.slice(-1)[0] : null;
+        const timeSinceLastUpdate = priceUpdates.length > 0 ? this.getTimeSinceLastUpdate(lastPriceUpdate) : "no available data";
 
         return (
             <div>
@@ -115,7 +129,7 @@ class BarCard extends Component {
                             <div className="card-content">
                                 <div className="price">{displayPrice}</div>
                                 <Progress percent={averageRating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
-                                <div className="update-time">Updated 7 minutes ago</div>
+                                <div className="update-time">{timeSinceLastUpdate}</div>
                             </div>
                         </Skeleton>
                     </Card>
@@ -136,7 +150,7 @@ class BarCard extends Component {
                             <div className="card-content">
                                 <div className="price">{displayPrice}</div>
                                 <Progress percent={averageRating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
-                                <div className="update-time">Updated 7 minutes ago</div>
+                                <div className="update-time">{timeSinceLastUpdate}</div>
                             </div>
                         </Skeleton>
                     </Card>

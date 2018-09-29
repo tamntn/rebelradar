@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Modal, Slider, Menu, Dropdown, message } from 'antd';
+import { Modal, Slider, Menu, Dropdown, notification } from 'antd';
 import '../style/ReportModal.css';
+
+notification.config({
+    placement: 'topLeft',
+    top: '90px',
+    duration: 5
+});
 
 class ReportModal extends Component {
     constructor(props) {
@@ -19,11 +25,17 @@ class ReportModal extends Component {
             axios.post(`http://localhost:3000/api/price/${locationId}`, { "price": this.state.selectedPrice }),
             axios.post(`http://localhost:3000/api/ratings/${locationId}`, { "rating": this.state.selectedRating }),
         ]).then(() => {
-            message.success("Thank you for your submission!");
+            notification["success"]({
+                message: 'Submission has been received',
+                description: 'Thank you for your contribution 🙂',
+            });
             this.props.onUpdate();
             this.props.closeModal();
         }).catch(() => {
-            message.error("Your submission was not successful");
+            notification["error"]({
+                message: 'Submission was not successful',
+                description: 'Please try again 😭',
+            });
         })
     }
 

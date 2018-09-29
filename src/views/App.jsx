@@ -35,7 +35,6 @@ class App extends Component {
 					locations
 				})
 			});
-		console.log("Fetched user data");
 	}
 
 	onUpdateSearchKeyWord = (e) => {
@@ -70,6 +69,7 @@ class App extends Component {
 				<Menu.Item key="1"><Icon type="dollar" />Cover Price ($ - $$$)</Menu.Item>
 				<Menu.Item key="2"><Icon type="sort-ascending" />Name (A - Z)</Menu.Item>
 				<Menu.Item key="3"><Icon type="fire" />Hotness (🔥 - 👎🏻)</Menu.Item>
+				<Menu.Item key="4"><Icon type="clock-circle" />Most Recently Updated</Menu.Item>
 			</Menu>
 		);
 
