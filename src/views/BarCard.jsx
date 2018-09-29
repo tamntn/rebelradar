@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Icon, Progress, Skeleton } from 'antd';
 import './BarCard.css';
+import InfoDrawer from './InfoDrawer';
 
 const strokeColor = {
     "1": "#ffccc7",
@@ -15,7 +16,8 @@ class BarCard extends Component {
         super(props);
         this.state = {
             loading: false,
-            rating: 65
+            rating: 65,
+            drawerOpen: false
         }
         this.getRatingStrokeColor = this.getRatingStrokeColor.bind(this);
     }
@@ -33,6 +35,14 @@ class BarCard extends Component {
             return strokeColor["1"]
     }
 
+    openInfoDrawer = () => {
+        this.setState({ drawerOpen: true })
+    }
+
+    closeInfoDrawer = () => {
+        this.setState({ drawerOpen: false })
+    }
+
     render() {
         const rating = this.state.rating;
         const ratingStrokeColor = this.getRatingStrokeColor(rating);
@@ -45,7 +55,8 @@ class BarCard extends Component {
                     <Card
                         title="BAR NAME 🔥"
                         hoverable
-                        actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
+                        onClick={this.openInfoDrawer}
+                    // actions={[<Icon type="setting" onClick={() => this.setState({ drawerOpen: true })} />, <Icon type="edit" />, <Icon type="ellipsis" />]}
                     >
                         <Skeleton loading={this.state.loading}>
                             <div className="card-content">
@@ -62,7 +73,8 @@ class BarCard extends Component {
                         title="BAR NAME 🔥"
                         hoverable
                         cover={<img alt="example" src="https://scontent-atl3-1.xx.fbcdn.net/v/t1.0-9/15871466_1644719459162000_8163189671313138506_n.jpg?_nc_cat=104&oh=60b48f0ea8088615771e71dbae376e40&oe=5C5B5408" />}
-                        actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
+                        onClick={this.openInfoDrawer}
+                    // actions={[<Icon type="setting" onClick={() => this.setState({ drawerOpen: true })} />, <Icon type="edit" />, <Icon type="ellipsis" />]}
                     >
                         <Skeleton loading={this.state.loading}>
                             <div className="card-content">
@@ -73,6 +85,7 @@ class BarCard extends Component {
                         </Skeleton>
                     </Card>
                 }
+                <InfoDrawer open={this.state.drawerOpen} closeDrawer={this.closeInfoDrawer} />
             </div>
         )
     }
