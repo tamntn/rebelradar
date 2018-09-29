@@ -2,11 +2,11 @@
     position: inherit;
     margin: 0px 50px 30px 50px;
     font-family: 'Ubuntu', sans-serif;
+    width: 280px;
 }
 
 .card-content {
     text-align: center;
-    /* max-height: 50px; */
 }
 
 .price {
@@ -19,4 +19,11 @@
     margin-top: 5px;
     font-size: 13px;
     font-weight: 100;
+}
+
+@media (max-width: 480px) {
+    .ant-card {
+        width: 300px;
+        margin: 0px 20px 30px 20px;
+    }
 }

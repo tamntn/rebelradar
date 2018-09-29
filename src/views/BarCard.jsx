@@ -15,7 +15,7 @@ class BarCard extends Component {
         super(props);
         this.state = {
             loading: false,
-            rating: 15
+            rating: 65
         }
         this.getRatingStrokeColor = this.getRatingStrokeColor.bind(this);
     }
@@ -36,23 +36,44 @@ class BarCard extends Component {
     render() {
         const rating = this.state.rating;
         const ratingStrokeColor = this.getRatingStrokeColor(rating);
+        const compactView = this.props.compactView;
 
         return (
-            <Card
-                title="BAR NAME 🔥"
-                hoverable
-                style={{ width: 280 }}
-                cover={<img alt="example" src="https://scontent-atl3-1.xx.fbcdn.net/v/t1.0-9/15871466_1644719459162000_8163189671313138506_n.jpg?_nc_cat=104&oh=60b48f0ea8088615771e71dbae376e40&oe=5C5B5408" />}
-            // actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
-            >
-                <Skeleton loading={this.state.loading}>
-                    <div className="card-content">
-                        <div className="price">No Cover</div>
-                        <Progress percent={rating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
-                        <div className="update-time">Updated 7 minutes ago</div>
-                    </div>
-                </Skeleton>
-            </Card>
+            <div>
+                {
+                    compactView &&
+                    <Card
+                        title="BAR NAME 🔥"
+                        hoverable
+                        actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
+                    >
+                        <Skeleton loading={this.state.loading}>
+                            <div className="card-content">
+                                <div className="price">No Cover</div>
+                                <Progress percent={rating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
+                                <div className="update-time">Updated 7 minutes ago</div>
+                            </div>
+                        </Skeleton>
+                    </Card>
+                }
+                {
+                    !compactView &&
+                    <Card
+                        title="BAR NAME 🔥"
+                        hoverable
+                        cover={<img alt="example" src="https://scontent-atl3-1.xx.fbcdn.net/v/t1.0-9/15871466_1644719459162000_8163189671313138506_n.jpg?_nc_cat=104&oh=60b48f0ea8088615771e71dbae376e40&oe=5C5B5408" />}
+                        actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
+                    >
+                        <Skeleton loading={this.state.loading}>
+                            <div className="card-content">
+                                <div className="price">No Cover</div>
+                                <Progress percent={rating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
+                                <div className="update-time">Updated 7 minutes ago</div>
+                            </div>
+                        </Skeleton>
+                    </Card>
+                }
+            </div>
         )
     }
 }
