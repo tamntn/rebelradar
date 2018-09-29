@@ -100,11 +100,10 @@
 }
 
 @media (max-width: 480px) {
-  .body .main-actions button{
-      width: 300px;
-      margin: 10px 0px 0px 0px;
+  .body .main-actions button {
+    width: 300px;
+    margin: 10px 0px 0px 0px;
   }
-
   .body .main-actions .ant-checkbox-wrapper {
     margin: 10px 0px 0px 0px;
   }
