@@ -142,8 +142,8 @@ class BarCard extends Component {
                         loading={this.state.loading}
                         actions={[
                             // <div>17 <Icon type="check-circle" size="large" theme="twoTone" twoToneColor="#52c41a" /></div>,
-                            <Icon type="edit" size="large" onClick={this.openModal} />,
-                            <Icon type="info-circle" size="large" onClick={this.openInfoDrawer} />
+                            <div onClick={this.openModal}><Icon type="edit" size="large" /></div>,
+                            <div onClick={this.openInfoDrawer}><Icon type="info-circle" size="large" onClick={this.openInfoDrawer} /></div>
                         ]}
                     >
                         <Skeleton loading={this.state.loading}>

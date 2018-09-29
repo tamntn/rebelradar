@@ -27,6 +27,10 @@
     font-weight: 700;
 }
 
+.ant-card-actions span {
+    width: 100% !important;
+}
+
 @media (max-width: 480px) {
     .ant-card {
         width: 300px;
