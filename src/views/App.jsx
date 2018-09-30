@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import socketIoClient from 'socket.io-client';
 import { Input, Dropdown, Button, Icon, Menu, Checkbox, Spin } from 'antd';
 import BarCard from './BarCard';
 import appLogo from '../image/logo.png';
 import '../style/App.css';
 
+const io = socketIoClient('https://rebelradar-api.herokuapp.com');
 const loadingList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 class App extends Component {
@@ -23,6 +25,9 @@ class App extends Component {
 
 	componentDidMount() {
 		this.getAllLocationsInfo();
+		io.on('newPriceUpdate', () => {
+			this.getAllLocationsInfo();
+		});
 	}
 
 	getAllLocationsInfo = () => {
