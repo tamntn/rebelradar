@@ -15,7 +15,7 @@ class App extends Component {
 		this.state = {
 			loading: true,
 			searchKeyWord: "",
-			selectedSortingOption: "3",
+			selectedSortingOption: "2",
 			compactView: false,
 			locations: []
 		};
