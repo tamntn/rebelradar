@@ -15,7 +15,7 @@ class InfoDrawer extends Component {
     }
 
     render() {
-        const { name, address, phone, website, pictureURL } = this.props.info;
+        const { name, address, phone, website } = this.props.info;
 
         return (
             <Drawer
@@ -34,9 +34,9 @@ class InfoDrawer extends Component {
                     paddingBottom: 53,
                 }}
             >
-                <div>
+                <div className="drawer-meta-info">
                     <h1>{name}</h1>
-                    <div>Address: {address}</div>
+                    <div>{address}</div>
                     <div><a href={`tel:${phone}`}>{phone}</a></div>
                     <div><a href={website} target="_blank">{website}</a></div>
                 </div>

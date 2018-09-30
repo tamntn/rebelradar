@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import socketIoClient from 'socket.io-client';
 import { Input, Dropdown, Button, Icon, Menu, Checkbox, Spin } from 'antd';
 import BarCard from './BarCard';
@@ -7,7 +8,6 @@ import appLogo from '../image/logo.png';
 import '../style/App.css';
 
 const io = socketIoClient('https://rebelradar-api.herokuapp.com');
-const loadingList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 class App extends Component {
 	constructor(props) {
@@ -44,11 +44,17 @@ class App extends Component {
 
 	onUpdateSearchKeyWord = (e) => {
 		const searchKeyWord = e.target.value;
-		this.setState({ searchKeyWord })
+		this.setState({ searchKeyWord });
 	}
 
 	handleMenuClick(option) {
-		this.setState({ selectedSortingOption: option.key })
+		this.setState({ selectedSortingOption: option.key });
+	}
+
+	processLocations = () => {
+		let result = this.searchLocations();
+		result = this.sortLocations(result);
+		return result;
 	}
 
 	searchLocations = () => {
@@ -56,12 +62,51 @@ class App extends Component {
 	}
 
 	sortLocations = (locations) => {
+		if (this.state.selectedSortingOption === "1") {
+			return locations;
+		} else if (this.state.selectedSortingOption === "2") {
+			return locations.sort((a, b) => {
+				const aCleanName = a.name.replace('The ', '').trim();
+				const bCleanName = b.name.replace('The ', '').trim();
+				if (aCleanName > bCleanName)
+					return 1;
+				else
+					return -1;
+			})
+		} else if (this.state.selectedSortingOption === "3") {
+			return locations.sort((a, b) => {
+				const aRating = this.getAverageRating(a.ratings);
+				const bRating = this.getAverageRating(b.ratings);
+				if (aRating > bRating)
+					return -1;
+				else
+					return 1;
+			})
+		} else if (this.state.selectedSortingOption === "4") {
+			return locations.sort((a, b) => {
+				const aLastUpdate = a.priceUpdates.length > 0 ? a.priceUpdates.slice(-1)[0] : null;
+				const bLastUpdate = b.priceUpdates.length > 0 ? b.priceUpdates.slice(-1)[0] : null;
+				if (aLastUpdate === null && bLastUpdate === null)
+					return 0;
+				else if (aLastUpdate === null && bLastUpdate !== null)
+					return 1;
+				else if (aLastUpdate !== null && bLastUpdate === null)
+					return -1;
+				else if (moment(aLastUpdate).isAfter(bLastUpdate))
+					return -1;
+				else
+					return 1;
 
+			})
+		}
 	}
 
-	processLocations = () => {
-		let result = this.searchLocations();
-		return result;
+	getAverageRating = (ratingArray) => {
+		if (ratingArray.length === 0) {
+			return 0;
+		} else {
+			return ratingArray.reduce((a, b) => { return a + b }, 0) / ratingArray.length;
+		}
 	}
 
 	updateViewImage(e) {
@@ -71,7 +116,7 @@ class App extends Component {
 	render() {
 		const sortMenu = (
 			<Menu onClick={this.handleMenuClick} defaultSelectedKeys={["2"]} selectedKeys={[this.state.selectedSortingOption]}>
-				<Menu.Item key="1"><Icon type="dollar" />Cover Price ($ - $$$)</Menu.Item>
+				{/* <Menu.Item key="1"><Icon type="dollar" />Cover Price ($ - $$$)</Menu.Item> */}
 				<Menu.Item key="2"><Icon type="sort-ascending" />Name (A - Z)</Menu.Item>
 				<Menu.Item key="3"><Icon type="fire" />Hotness (🔥 - 👎🏻)</Menu.Item>
 				<Menu.Item key="4"><Icon type="clock-circle" />Most Recently Updated</Menu.Item>

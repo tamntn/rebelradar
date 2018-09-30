@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import { Modal, Slider, Menu, Dropdown, notification } from 'antd';
+import { Modal, Slider, notification } from 'antd';
 import '../style/ReportModal.css';
 
 notification.config({
@@ -63,7 +63,7 @@ class ReportModal extends Component {
 
         return (
             <Modal
-                title="Any idea on what to put here?"
+                title={this.props.info.name}
                 visible={this.props.open}
                 onOk={this.handleFormSubmit}
                 onCancel={this.props.closeModal}
@@ -74,7 +74,7 @@ class ReportModal extends Component {
                 <h3>How much does it cost?</h3>
                 <Slider marks={marks} step={5} defaultValue={this.state.selectedPrice} min={0} max={50} tipFormatter={value => `$${value}`} onChange={value => this.setState({ selectedPrice: value })} />
                 <br /><br />
-                <h3>How 🔥🔥🔥 is {`${this.props.info.name}`}?</h3>
+                <h3>How will you rate the current atmosphere here?</h3>
                 <Slider defaultValue={this.state.selectedRating} tipFormatter={value => `${value} 🔥`} onChange={value => this.setState({ selectedRating: value })} />
             </Modal>
         )

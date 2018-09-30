@@ -5,37 +5,14 @@ import InfoDrawer from './InfoDrawer';
 import ReportModal from './ReportModal';
 import '../style/BarCard.css';
 
-const strokeColor = {
-    "1": "#ffccc7",
-    "2": "#ffa39e",
-    "3": "#ff7875",
-    "4": "#ff4d4f",
-    "5": "#f5222d",
-}
-
 class BarCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
             loading: false,
-            rating: 65,
             drawerOpen: false,
             modalOpen: false
         }
-        this.getRatingStrokeColor = this.getRatingStrokeColor.bind(this);
-    }
-
-    getRatingStrokeColor(rating) {
-        if (rating >= 90)
-            return strokeColor["5"]
-        else if (rating >= 70)
-            return strokeColor["4"]
-        else if (rating >= 50)
-            return strokeColor["3"]
-        else if (rating >= 20)
-            return strokeColor["2"]
-        else
-            return strokeColor["1"]
     }
 
     openInfoDrawer = () => {
@@ -100,8 +77,11 @@ class BarCard extends Component {
             return "less than a minute ago"
         else if (differenceInMinutes < 60)
             return `${differenceInMinutes} minutes ago`
-        else
-            return `${Math.round(differenceInMinutes / 60)} hour${Math.round(differenceInMinutes / 60) === 1 ? '' : 's'} ago`
+        else {
+            const hour = Math.round(differenceInMinutes / 60);
+            const minute = differenceInMinutes - hour * 60;
+            return `${hour} hour${hour === 1 ? '' : 's'} ${minute} minute${minute === 1 ? '' : 's'} ago`
+        }
     }
 
     disableReport = () => {
@@ -121,11 +101,10 @@ class BarCard extends Component {
         const compactView = this.props.compactView;
 
         // LocationInfo
-        const { name, address, phone, website, pictureURL, priceUpdates, ratings } = this.props.locationInfo;
+        const { name, pictureURL, priceUpdates, ratings } = this.props.locationInfo;
 
         const displayPrice = this.getDisplayPrice(priceUpdates);
         const averageRating = this.getAverageRating(ratings);
-        const ratingStrokeColor = this.getRatingStrokeColor(averageRating);
         const lastPriceUpdate = priceUpdates.length > 0 ? priceUpdates.slice(-1)[0] : null;
         const timeSinceLastUpdate = priceUpdates.length > 0 ? this.getTimeSinceLastUpdate(lastPriceUpdate) : "no available data";
 
@@ -145,7 +124,7 @@ class BarCard extends Component {
                                 <div className="price">{displayPrice}</div>
                                 <div>
                                     <div className="left-emoji">👎🏻</div>
-                                    <Progress percent={averageRating} showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
+                                    <Progress percent={averageRating} showInfo={false} strokeWidth={7} strokeColor={`rgba(255, 33, 33, ${averageRating / 100})`} />
                                     <div className="right-emoji">🔥</div>
                                 </div>
                                 {
@@ -188,7 +167,7 @@ class BarCard extends Component {
                                 <div className="price">{displayPrice}</div>
                                 <div>
                                     <div className="left-emoji">👎🏻</div>
-                                    <Progress percent={averageRating} showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
+                                    <Progress percent={averageRating} showInfo={false} strokeWidth={7} strokeColor={`rgba(255, 33, 33, ${averageRating / 100})`} />
                                     <div className="right-emoji">🔥</div>
                                 </div>
                                 {
