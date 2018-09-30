@@ -14,8 +14,8 @@ class ReportModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedPrice: 10,
-            selectedRating: 30
+            selectedPrice: 20,
+            selectedRating: 50
         }
     }
 
@@ -72,10 +72,10 @@ class ReportModal extends Component {
                 cancelText="Cancel"
             >
                 <h3>How much does it cost?</h3>
-                <Slider marks={marks} step={5} defaultValue={20} min={0} max={50} tipFormatter={value => `$${value}`} onChange={value => this.setState({ selectedPrice: value })} />
+                <Slider marks={marks} step={5} defaultValue={this.state.selectedPrice} min={0} max={50} tipFormatter={value => `$${value}`} onChange={value => this.setState({ selectedPrice: value })} />
                 <br /><br />
                 <h3>How 🔥🔥🔥 is {`${this.props.info.name}`}?</h3>
-                <Slider defaultValue={50} tipFormatter={value => `${value} 🔥`} onChange={value => this.setState({ selectedRating: value })} />
+                <Slider defaultValue={this.state.selectedRating} tipFormatter={value => `${value} 🔥`} onChange={value => this.setState({ selectedRating: value })} />
             </Modal>
         )
     }
