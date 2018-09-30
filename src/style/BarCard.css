@@ -58,6 +58,14 @@
     width: 100% !important;
 }
 
+.reported {
+    color: #389e0d;
+}
+
+.reported:hover {
+    cursor: not-allowed;
+}
+
 @media (max-width: 480px) {
     .ant-card {
         width: 300px;

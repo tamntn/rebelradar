@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import { Modal, Slider, Menu, Dropdown, notification } from 'antd';
 import '../style/ReportModal.css';
 
 notification.config({
-    placement: 'topLeft',
+    placement: 'topRight',
     top: '90px',
-    duration: 5
+    duration: 10
 });
 
 class ReportModal extends Component {
@@ -27,8 +28,9 @@ class ReportModal extends Component {
         ]).then(() => {
             notification["success"]({
                 message: 'Submission has been received',
-                description: 'Thank you for your contribution 🙂',
+                description: 'Thank you for your contribution. You will be able to report again after 15 minutes 🙂',
             });
+            localStorage.setItem(this.props.info._id, moment().format());
             this.props.onUpdate();
             this.props.closeModal();
         }).catch(() => {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Icon, Progress, Skeleton } from 'antd';
+import { Card, Icon, Progress, Tooltip, Skeleton } from 'antd';
 import moment from 'moment';
 import InfoDrawer from './InfoDrawer';
 import ReportModal from './ReportModal';
@@ -104,6 +104,19 @@ class BarCard extends Component {
             return `${Math.round(differenceInMinutes / 60)} hour${Math.round(differenceInMinutes / 60) === 1 ? '' : 's'} ago`
     }
 
+    disableReport = () => {
+        if (localStorage.getItem(this.props.locationInfo._id) === null) {
+            return false;
+        } else {
+            const lastUpdateTime = localStorage.getItem(this.props.locationInfo._id);
+            const minutesSinceLastUpdate = moment().diff(moment(lastUpdateTime), 'minutes');
+            if (minutesSinceLastUpdate > 15)
+                return false;
+            else
+                return true;
+        }
+    }
+
     render() {
         const compactView = this.props.compactView;
 
@@ -115,6 +128,8 @@ class BarCard extends Component {
         const ratingStrokeColor = this.getRatingStrokeColor(averageRating);
         const lastPriceUpdate = priceUpdates.length > 0 ? priceUpdates.slice(-1)[0] : null;
         const timeSinceLastUpdate = priceUpdates.length > 0 ? this.getTimeSinceLastUpdate(lastPriceUpdate) : "no available data";
+
+        const disableReport = this.disableReport();
 
         return (
             <div>
@@ -153,11 +168,20 @@ class BarCard extends Component {
                         title={name}
                         cover={<img alt="example" src={pictureURL} />}
                         loading={this.state.loading}
-                        actions={[
-                            // <div>17 <Icon type="check-circle" size="large" theme="twoTone" twoToneColor="#52c41a" /></div>,
-                            <div onClick={this.openModal}><Icon type="edit" size="large" /> Report</div>,
-                            <div onClick={this.openInfoDrawer}><Icon type="info-circle" size="large" /> View</div>
-                        ]}
+                        actions={
+                            disableReport ?
+                                [
+                                    <Tooltip placement="bottom" title="You will be able to report again after 15 minutes since you last reported">
+                                        <div className="reported"><Icon type="check" size="large" /> Reported</div>
+                                    </Tooltip>,
+                                    <div onClick={this.openInfoDrawer}><Icon type="info-circle" size="large" /> View</div>
+                                ]
+                                :
+                                [
+                                    <div onClick={this.openModal}><Icon type="edit" size="large" /> Report</div>,
+                                    <div onClick={this.openInfoDrawer}><Icon type="info-circle" size="large" /> View</div>
+                                ]
+                        }
                     >
                         <Skeleton loading={this.state.loading}>
                             <div className="card-content">
