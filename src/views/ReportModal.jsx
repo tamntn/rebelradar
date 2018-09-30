@@ -70,10 +70,10 @@ class ReportModal extends Component {
                 cancelText="Cancel"
             >
                 <h3>How much does it cost?</h3>
-                <Slider marks={marks} step={5} defaultValue={10} min={0} max={50} tipFormatter={value => `$${value}`} onChange={value => this.setState({ selectedPrice: value })} />
+                <Slider marks={marks} step={5} defaultValue={20} min={0} max={50} tipFormatter={value => `$${value}`} onChange={value => this.setState({ selectedPrice: value })} />
                 <br /><br />
                 <h3>How 🔥🔥🔥 is {`${this.props.info.name}`}?</h3>
-                <Slider defaultValue={30} tipFormatter={value => `${value} 🔥`} onChange={value => this.setState({ selectedRating: value })} />
+                <Slider defaultValue={50} tipFormatter={value => `${value} 🔥`} onChange={value => this.setState({ selectedRating: value })} />
             </Modal>
         )
     }

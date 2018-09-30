@@ -128,8 +128,21 @@ class BarCard extends Component {
                         <Skeleton loading={this.state.loading}>
                             <div className="card-content">
                                 <div className="price">{displayPrice}</div>
-                                <Progress percent={averageRating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
-                                <div className="update-time">{timeSinceLastUpdate}</div>
+                                <div>
+                                    <div className="left-emoji">👎🏻</div>
+                                    <Progress percent={averageRating} showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
+                                    <div className="right-emoji">🔥</div>
+                                </div>
+                                {
+                                    !lastPriceUpdate &&
+                                    <div className="update-time no-data">no available data</div>
+                                }
+                                {
+                                    lastPriceUpdate &&
+                                    <div className="update-time">
+                                        <span className="last-update">Last report ${lastPriceUpdate.price}</span><br />{timeSinceLastUpdate}
+                                    </div>
+                                }
                             </div>
                         </Skeleton>
                     </Card>
@@ -142,15 +155,22 @@ class BarCard extends Component {
                         loading={this.state.loading}
                         actions={[
                             // <div>17 <Icon type="check-circle" size="large" theme="twoTone" twoToneColor="#52c41a" /></div>,
-                            <div onClick={this.openModal}><Icon type="edit" size="large" /></div>,
-                            <div onClick={this.openInfoDrawer}><Icon type="info-circle" size="large" onClick={this.openInfoDrawer} /></div>
+                            <div onClick={this.openModal}><Icon type="edit" size="large" /> Report</div>,
+                            <div onClick={this.openInfoDrawer}><Icon type="info-circle" size="large" /> View</div>
                         ]}
                     >
                         <Skeleton loading={this.state.loading}>
                             <div className="card-content">
                                 <div className="price">{displayPrice}</div>
-                                <Progress percent={averageRating} status="active" showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
-                                {/* <div className="update-time">{timeSinceLastUpdate}</div> */}
+                                <div>
+                                    <div className="left-emoji">👎🏻</div>
+                                    <Progress percent={averageRating} showInfo={false} strokeWidth={7} strokeColor={ratingStrokeColor} />
+                                    <div className="right-emoji">🔥</div>
+                                </div>
+                                {
+                                    !lastPriceUpdate &&
+                                    <div className="update-time no-data">no available data</div>
+                                }
                                 {
                                     lastPriceUpdate &&
                                     <div className="update-time">
