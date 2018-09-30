@@ -74,7 +74,7 @@ class ReportModal extends Component {
                 <h3>How much does it cost?</h3>
                 <Slider marks={marks} step={5} defaultValue={this.state.selectedPrice} min={0} max={50} tipFormatter={value => `$${value}`} onChange={value => this.setState({ selectedPrice: value })} />
                 <br /><br />
-                <h3>How will you rate the current atmosphere here?</h3>
+                <h3>How would you rate the current atmosphere here?</h3>
                 <Slider defaultValue={this.state.selectedRating} tipFormatter={value => `${value} 🔥`} onChange={value => this.setState({ selectedRating: value })} />
             </Modal>
         )
