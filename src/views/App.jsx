@@ -93,10 +93,9 @@ class App extends Component {
 				else if (aLastUpdate !== null && bLastUpdate === null)
 					return -1;
 				else if (moment(aLastUpdate).isAfter(bLastUpdate))
-					return -1;
-				else
 					return 1;
-
+				else
+					return -1;
 			})
 		}
 	}

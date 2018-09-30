@@ -78,7 +78,7 @@ class BarCard extends Component {
         else if (differenceInMinutes < 60)
             return `${differenceInMinutes} minutes ago`
         else {
-            const hour = Math.round(differenceInMinutes / 60);
+            const hour = Math.floor(differenceInMinutes / 60);
             const minute = differenceInMinutes - hour * 60;
             return `${hour} hour${hour === 1 ? '' : 's'} ${minute} minute${minute === 1 ? '' : 's'} ago`
         }
