@@ -8,14 +8,13 @@ import InfoDrawer from './views/InfoDrawer';
 import './index.css';
 
 ReactDOM.render(
-    // <HttpsRedirect>
-    <BrowserRouter>
-        <Switch>
-            <Route exact path="/" component={App} />
-            <Route path="/drawer" component={InfoDrawer} />
-            {/* <Route component={NotFound} /> */}
-        </Switch>
-    </BrowserRouter>
-    // </HttpsRedirect>
-    , document.getElementById('root'));
+    <HttpsRedirect>
+        <BrowserRouter>
+            <Switch>
+                <Route exact path="/" component={App} />
+                <Route path="/drawer" component={InfoDrawer} />
+                {/* <Route component={NotFound} /> */}
+            </Switch>
+        </BrowserRouter>
+    </HttpsRedirect>, document.getElementById('root'));
 registerServiceWorker();
